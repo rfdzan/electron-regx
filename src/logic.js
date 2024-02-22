@@ -10,17 +10,20 @@ class returnFlag {
       ig: {gFlag: true, iFlag: true},
     };
     for (const [returnString, member] of Object.entries(output)) {
-      if (Lodash.isEqual(member, output)) {
+      if (Lodash.isEqual(this.flag, member)) {
         return returnString; }
     }
     return 'i';
   }
 }
-function regxMain(user, show ) {
+function regxMain(user) {
   const getFlag = new returnFlag(user.flag);
-  console.log(getFlag.getFlag());
-  const re = RegExp(user.pattern, getFlag.getFlag());
+  console.log(typeof(getFlag.getFlag()));
+  console.log(typeof(user.text));
+  console.log(typeof(user.pattern))
+  const re = new RegExp(user.pattern, getFlag.getFlag());
   const result = user.text.match(re);
+  console.log(result);
   if (result != null) {
     return result.join(', ');
   } else {
@@ -29,18 +32,23 @@ function regxMain(user, show ) {
 }
 function userRegexSanitizer(Regex) {
   const re = new RegExp(/\\/, 'gi');
-  return Regex.replace(re, '\\\\');
+  return Regex.replace(re, '\\');
 }
+/**
+* Processes user input and returns the result of regex
+*/
 export function getUserInputs(gFlagButton, iFlagButton, userText, userRegex) {
   const flagButtonStatus = {
-    gFlag: gFlagButton.checked,
-    iFlag: iFlagButton.checked,
+    gFlag: gFlagButton,
+    iFlag: iFlagButton,
   };
-  const sanitizedRegex = userRegexSanitizer(userRegex.value);
+  console.log(userRegex);
+  const sanitizedRegex = userRegexSanitizer(userRegex);
   const userR = {
     pattern: sanitizedRegex,
-    text: userText.value,
+    text: userText,
     flag: flagButtonStatus,
   };
-  return regxMain(userR, show);
+  console.log(userR);
+  return regxMain(userR);
 }

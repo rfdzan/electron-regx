@@ -27,9 +27,17 @@
  */
 
 console.log('👋 This message is being logged by "renderer.js", included via Vite');
-const setButton = document.getElementById('btn')
-const titleInput = document.getElementById('title')
-setButton.addEventListener('click', () => {
-  const title = titleInput.value
-  window.electronAPI.setTitle(title)
-})
+const setButton = document.getElementById('btn');
+const gFlagButton = document.getElementById('gFlag');
+const iFlagButton = document.getElementById('iFlag');
+const userText = document.getElementById('userText');
+const userRegex = document.getElementById('userRegex');
+const show = document.getElementById('resultBox');
+setButton.addEventListener('click', async () => {
+  let g = gFlagButton.checked;
+  let i = iFlagButton.checked;
+  let text = userText.value;
+  let regex = userRegex.value;
+  const res = await window.electronAPI.regX(g, i, text, regex);
+  show.innerText = res;
+});

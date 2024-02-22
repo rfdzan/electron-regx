@@ -1,6 +1,6 @@
-const {app, BrowserWindow, ipcMain} = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
-// import { getUserInputs } from './logic';
+import {getUserInputs} from './logic';
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
@@ -57,16 +57,16 @@ function handleSetTitle(event, title) {
   const win = BrowserWindow.fromWebContents(webContent)
   win.setTitle(title)
 }
+function handleReceiveResult(event, gFlag, iFlag, userText, userRegex) {
+  return getUserInputs(gFlag, iFlag, userText, userRegex);
+}
 app.whenReady().then(() => {
   ipcMain.on('set-title', handleSetTitle);
+  ipcMain.handle('result', handleReceiveResult)
 })
 /**
 * The main running process.
 */
 // function runMain() {
-//   const gFlagButton = document.getElementById('gFlag');
-//   const iFlagButton = document.getElementById('iFlag');
-//   const userText = document.getElementById('userText');
-//   const userRegex = document.getElementById('userRegex');
 //   return getUserInputs(gFlagButton.ariaChecked, iFlagButton.ariaChecked, userText.value, userRegex.value);
 // }
