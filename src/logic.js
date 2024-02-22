@@ -18,12 +18,8 @@ class returnFlag {
 }
 function regxMain(user) {
   const getFlag = new returnFlag(user.flag);
-  console.log(typeof(getFlag.getFlag()));
-  console.log(typeof(user.text));
-  console.log(typeof(user.pattern))
   const re = new RegExp(user.pattern, getFlag.getFlag());
   const result = user.text.match(re);
-  console.log(result);
   if (result != null) {
     return result.join(', ');
   } else {
@@ -42,13 +38,11 @@ export function getUserInputs(gFlagButton, iFlagButton, userText, userRegex) {
     gFlag: gFlagButton,
     iFlag: iFlagButton,
   };
-  console.log(userRegex);
   const sanitizedRegex = userRegexSanitizer(userRegex);
   const userR = {
     pattern: sanitizedRegex,
     text: userText,
     flag: flagButtonStatus,
   };
-  console.log(userR);
   return regxMain(userR);
 }
