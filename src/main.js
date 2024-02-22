@@ -1,6 +1,6 @@
-const { app, BrowserWindow } = require('electron');
+const {app, BrowserWindow, ipcMain} = require('electron');
 const path = require('path');
-
+// import { getUserInputs } from './logic';
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
@@ -51,3 +51,22 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+// console.log('👋 This message is being logged by "renderer.js", included via Vite');
+function handleSetTitle(event, title) {
+  const webContent = event.sender;
+  const win = BrowserWindow.fromWebContents(webContent)
+  win.setTitle(title)
+}
+app.whenReady().then(() => {
+  ipcMain.on('set-title', handleSetTitle);
+})
+/**
+* The main running process.
+*/
+// function runMain() {
+//   const gFlagButton = document.getElementById('gFlag');
+//   const iFlagButton = document.getElementById('iFlag');
+//   const userText = document.getElementById('userText');
+//   const userRegex = document.getElementById('userRegex');
+//   return getUserInputs(gFlagButton.ariaChecked, iFlagButton.ariaChecked, userText.value, userRegex.value);
+// }

@@ -9,52 +9,38 @@ class returnFlag {
       i: {gFlag: false, iFlag: true},
       ig: {gFlag: true, iFlag: true},
     };
-    for (const [s, member] of Object.entries(output)) {
+    for (const [returnString, member] of Object.entries(output)) {
       if (Lodash.isEqual(member, output)) {
-        return s;
-      }
+        return returnString; }
     }
     return 'i';
   }
 }
-function regexMain(user ) {
+function regxMain(user, show ) {
   const getFlag = new returnFlag(user.flag);
   console.log(getFlag.getFlag());
   const re = RegExp(user.pattern, getFlag.getFlag());
   const result = user.text.match(re);
-  const show = document.getElementById('resultBox');
   if (result != null) {
-    show.innerText = result.join(', ');
+    return result.join(', ');
   } else {
-    show.innerText = 'Processing...';
+    return 'Processing...';
   }
 }
 function userRegexSanitizer(Regex) {
   const re = new RegExp(/\\/, 'gi');
   return Regex.replace(re, '\\\\');
 }
-function getUserInputs() {
-  const gFlagButton = document.getElementById('gFlag');
-  const iFlagButton = document.getElementById('iFlag');
+export function getUserInputs(gFlagButton, iFlagButton, userText, userRegex) {
   const flagButtonStatus = {
     gFlag: gFlagButton.checked,
     iFlag: iFlagButton.checked,
   };
-  const userText = document.getElementById('userText');
-  const userRegex = document.getElementById('userRegex');
   const sanitizedRegex = userRegexSanitizer(userRegex.value);
   const userR = {
     pattern: sanitizedRegex,
     text: userText.value,
     flag: flagButtonStatus,
   };
-  const processUserRequest = regexMain(userR);
-  // if (userText != null) {
-  // 	console.log(userText.value);
-  // }
-  // if (userRegex != null) {
-  // 	console.log(userRegex.value);
-  // }
+  return regxMain(userR, show);
 }
-getUserInputs();
-// setInterval(getUserInputs, 1000);
