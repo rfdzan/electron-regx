@@ -52,16 +52,10 @@ app.on('activate', () => {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
 // console.log('👋 This message is being logged by "renderer.js", included via Vite');
-function handleSetTitle(event, title) {
-  const webContent = event.sender;
-  const win = BrowserWindow.fromWebContents(webContent)
-  win.setTitle(title)
-}
 function handleReceiveResult(event, gFlag, iFlag, userText, userRegex) {
   return getUserInputs(gFlag, iFlag, userText, userRegex);
 }
 app.whenReady().then(() => {
-  ipcMain.on('set-title', handleSetTitle);
   ipcMain.handle('result', handleReceiveResult)
 })
 /**

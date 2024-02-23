@@ -20,6 +20,7 @@ function regxMain(user) {
   const getFlag = new returnFlag(user.flag);
   const re = new RegExp(user.pattern, getFlag.getFlag());
   const result = user.text.match(re);
+  superficialDebugPrint([user])
   if (result != null) {
     return result.join(', ');
   } else {
@@ -29,6 +30,11 @@ function regxMain(user) {
 function userRegexSanitizer(Regex) {
   const re = new RegExp(/\\/, 'gi');
   return Regex.replace(re, '\\');
+}
+function superficialDebugPrint(arr) {
+  for (const debug of arr) {
+    console.log(debug);
+  }
 }
 /**
 * Processes user input and returns the result of regex

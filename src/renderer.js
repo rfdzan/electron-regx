@@ -1,43 +1,10 @@
-/**
- * This file will automatically be loaded by vite and run in the "renderer" context.
- * To learn more about the differences between the "main" and the "renderer" context in
- * Electron, visit:
- *
- * https://electronjs.org/docs/tutorial/application-architecture#main-and-renderer-processes
- *
- * By default, Node.js integration in this file is disabled. When enabling Node.js integration
- * in a renderer process, please be aware of potential security implications. You can read
- * more about security risks here:
- *
- * https://electronjs.org/docs/tutorial/security
- *
- * To enable Node.js integration in this file, open up `main.js` and enable the `nodeIntegration`
- * flag:
- *
- * ```
- *  // Create the browser window.
- *  mainWindow = new BrowserWindow({
- *    width: 800,
- *    height: 600,
- *    webPreferences: {
- *      nodeIntegration: true
- *    }
- *  });
- * ```
- */
-
-console.log('👋 This message is being logged by "renderer.js", included via Vite');
+import { fetchUIElements } from './fetchUI.js';
 const setButton = document.getElementById('btn');
-const gFlagButton = document.getElementById('gFlag');
-const iFlagButton = document.getElementById('iFlag');
-const userText = document.getElementById('userText');
-const userRegex = document.getElementById('userRegex');
 const show = document.getElementById('resultBox');
 setButton.addEventListener('click', async () => {
-  let g = gFlagButton.checked;
-  let i = iFlagButton.checked;
-  let text = userText.value;
-  let regex = userRegex.value;
+  let fetchUI = new fetchUIElements(document);
+  let [g, i] = fetchUI.getCheckBoxes();
+  let [text, regex] = fetchUI.getInputFields();
   const res = await window.electronAPI.regX(g, i, text, regex);
   show.innerText = res;
 });
